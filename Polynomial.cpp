@@ -4,16 +4,17 @@ using namespace std;
 class Polynomial
 {
   private:
-    // Variables to store information about polynomial
+  	int degree;
+  	int cof[10];
   public:
     Polynomial()
     {
-      // Behavior of default constructor
+        degree=0;
     }
 
     Polynomial(int deg)
     {
-      // Behavior of constructor with arguments
+    	degree=deg;
     }
   
     ~Polynomial()
@@ -22,34 +23,95 @@ class Polynomial
     }
   
     //  Overload copy constructor, +, - and = operators
-  
+  	
+  	Polynomial operator+(Polynomial const &p)
+  	{
+  		int min=this->degree<p.degree?this->degree:p.degree;
+  		for(int i=min;i>=0;i--)
+  		{
+  			
+			this->cof[i]=this->cof[i]+p.cof[i];
+		}
+		return *this;
+	}
+	Polynomial operator-(Polynomial const &p)
+  	{
+  	
+  		int min=this->degree<p.degree?this->degree:p.degree;
+  		for(int i=min;i>=0;i--)
+  		{
+  			
+			this->cof[i]=this->cof[i]-p.cof[i];
+		}
+		return *this;
+	}
     void storePolynomial()
     {
-      //  Code to enter and store polynomial
+      	cout<<"\nEnter polynomial:";
+      	for(int i=degree;i>=0;i--)
+      	{
+      		cout<<"\nEnter coeffecient of x^"<<i<<" term:";
+			cin>>cof[i];	
+		}
+    
     }
     void display()
     {
+    	cout<<"\nPolynomial is:";
+		for(int i=degree;i>=0;i--)
+		{
+			cout<<cof[i];
+				
+			if(i!=0 && cof[i]>0)
+			{
+				cout<<"x^"<<i<<" + ";
+			}
+			else if(i!=0 && cof[i]<0)
+			{
+				cout<<"x^"<<i<<"  ";
+			}
+		}
       //  Code to print the polynomial in readable format
     }
   
-}
+};
 
 int main()
 {
   int degFirst, degSecond;
-  // Ask user to input the values of degFirst and degSecond 
-  Polynomial firstPolynomial(degFirst);
+  // Ask user to input the values of degFirst and degSecond
+  cout<<"\nEnter degree of first polynomial:";
+  cin>>degFirst; 
+  cout<<"\nEnter degree of second polynomial:";
+  cin>>degSecond;
+  Polynomial firstPolynomial(degFirst) ;
   Polynomial secondPolynomial(degSecond);
-  Polynomial thirdPolynomial;
-  
+  cout<<"\nEnter first Polynomial:";
   firstPolynomial.storePolynomial();
+  cout<<"\nEnter Second Polynomial:";
   secondPolynomial.storePolynomial();
-  
-  thirdPolynomial=firstPolynomial+secondPolynomial;
-  Polynomial fourthPolynomial=firstPolynomial-secondPolynomial;
+  Polynomial thirdPolynomial;
+  Polynomial fourthPolynomial;
+  if(degFirst>degSecond)
+  {
+  	thirdPolynomial=firstPolynomial;
+  	fourthPolynomial=firstPolynomial;
+  	thirdPolynomial=thirdPolynomial+secondPolynomial;
+	fourthPolynomial=fourthPolynomial-secondPolynomial;
+  }
+  if(degSecond>degFirst)
+  {
+  	thirdPolynomial=secondPolynomial;
+  	fourthPolynomial=secondPolynomial;
+  	thirdPolynomial=thirdPolynomial+firstPolynomial;
+	fourthPolynomial=fourthPolynomial-firstPolynomial;
+  }
   
   firstPolynomial.display();
   secondPolynomial.display();
+  cout<<"\nRESULT:";
   thirdPolynomial.display();
+  cout<<"\nRESULT:";
   fourthPolynomial.display();
+  return 0;
 }
